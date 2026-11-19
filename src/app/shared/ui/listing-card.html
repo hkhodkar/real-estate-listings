@@ -1,0 +1,28 @@
+<div class="card__media">
+  <img [src]="cover().src" [alt]="cover().alt + ' - ' + listing().title" width="1200" height="800" loading="lazy" decoding="async" />
+  <div class="card__badges">
+    <span class="badge">{{ typeLabel() }}</span>
+    @if (listing().featured) {
+      <span class="badge badge--accent">Featured</span>
+    }
+  </div>
+  <app-favorite-button class="card__fav" [listingId]="listing().id" [title]="listing().title" />
+  <span class="card__photos"><app-icon name="photo" [size]="14" /> {{ listing().images.length }}</span>
+</div>
+
+<div class="card__body">
+  <div class="card__price">{{ listing().price | price }}</div>
+  <h3 class="card__title">
+    <a [routerLink]="['/listings', listing().id]">{{ listing().title }}</a>
+  </h3>
+  <p class="card__location"><app-icon name="pin" [size]="16" /> {{ listing().community }}, {{ city() }}</p>
+  <ul class="card__facts">
+    <li><app-icon name="bed" [size]="17" /> {{ listing().beds | beds }}</li>
+    <li><app-icon name="bath" [size]="17" /> {{ listing().baths | baths }}</li>
+    <li><app-icon name="area" [size]="17" /> {{ listing().area | area }}</li>
+  </ul>
+  @if (layout() === 'list') {
+    <p class="card__desc">{{ listing().description }}</p>
+    <p class="card__meta">AED {{ perSqft() }} per sqft · Built {{ listing().yearBuilt }}{{ listing().furnished ? ' · Furnished' : '' }}</p>
+  }
+</div>

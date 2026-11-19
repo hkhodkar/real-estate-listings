@@ -1,0 +1,117 @@
+.filters {
+  display: grid;
+  grid-template-columns: minmax(220px, 1.5fr) auto;
+  gap: 18px 16px;
+  align-items: end;
+  padding: 18px 20px 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.filters__toggle {
+  display: none;
+}
+
+.filters__count {
+  display: inline-grid;
+  place-items: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--primary);
+  color: #fff;
+  font-size: 0.75rem;
+}
+
+.filters__fields {
+  display: contents;
+}
+
+.range {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  .input {
+    min-width: 0;
+  }
+}
+
+.range__sep {
+  color: var(--text-muted);
+}
+
+.filters__clear.is-hidden {
+  visibility: hidden;
+}
+
+@media (min-width: 1101px) {
+  .filters {
+    grid-template-columns: minmax(200px, 1.5fr) minmax(130px, 1fr) minmax(130px, 1fr) minmax(220px, 1.4fr) minmax(110px, 0.8fr) auto;
+  }
+}
+
+@media (min-width: 761px) and (max-width: 1100px) {
+  .filters {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .filters__search {
+    grid-column: span 2;
+  }
+
+  .filters__clear {
+    justify-self: start;
+  }
+}
+
+@media (max-width: 760px) {
+  .filters {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0 10px;
+    padding: 14px;
+  }
+
+  .filters__search label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  .filters__toggle {
+    display: inline-flex;
+    padding: 0 12px;
+  }
+
+  .filters__fields {
+    display: none;
+    grid-column: 1 / -1;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 18px 12px;
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border);
+
+    &.is-open {
+      display: grid;
+    }
+  }
+
+  .filters__price {
+    grid-column: 1 / -1;
+  }
+
+  .filters__clear {
+    align-self: end;
+    justify-self: start;
+
+    &.is-hidden {
+      display: none;
+    }
+  }
+}

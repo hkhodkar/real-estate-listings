@@ -1,0 +1,62 @@
+<form class="filters" [formGroup]="form" role="search" aria-label="Filter listings" (submit)="$event.preventDefault()">
+  <div class="field filters__search">
+    <label for="f-q">Search</label>
+    <div class="input-icon">
+      <app-icon name="search" [size]="18" />
+      <input id="f-q" class="input" type="search" formControlName="q" placeholder="Area or keyword" autocomplete="off" />
+    </div>
+  </div>
+
+  <button type="button" class="btn btn--outline filters__toggle" aria-controls="filter-fields" [attr.aria-expanded]="expanded()" (click)="toggleExpanded()">
+    <app-icon name="filter" [size]="18" />
+    Filters
+    @if (activeCount()) {
+      <span class="filters__count">{{ activeCount() }}</span>
+    }
+  </button>
+
+  <div id="filter-fields" class="filters__fields" [class.is-open]="expanded()">
+    <div class="field">
+      <label for="f-city">City</label>
+      <select id="f-city" class="input" formControlName="city">
+        <option [ngValue]="null">All cities</option>
+        @for (city of cities; track city.id) {
+          <option [ngValue]="city.id">{{ city.name }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="f-type">Property type</label>
+      <select id="f-type" class="input" formControlName="type">
+        <option [ngValue]="null">Any type</option>
+        @for (type of types; track type.id) {
+          <option [ngValue]="type.id">{{ type.label }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="field filters__price" role="group" aria-labelledby="f-price-label">
+      <span id="f-price-label" class="label">Price (AED)</span>
+      <div class="range">
+        <input id="f-min" class="input" type="number" inputmode="numeric" min="0" step="50000" placeholder="Min" aria-label="Minimum price in AED" formControlName="minPrice" />
+        <span class="range__sep" aria-hidden="true">–</span>
+        <input id="f-max" class="input" type="number" inputmode="numeric" min="0" step="50000" placeholder="Max" aria-label="Maximum price in AED" formControlName="maxPrice" />
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="f-beds">Bedrooms</label>
+      <select id="f-beds" class="input" formControlName="beds">
+        <option [ngValue]="null">Any</option>
+        @for (option of bedsOptions; track option.id) {
+          <option [ngValue]="option.id">{{ option.label }}</option>
+        }
+      </select>
+    </div>
+
+    <button type="button" class="btn btn--ghost filters__clear" [class.is-hidden]="!activeCount()" [disabled]="!activeCount()" (click)="clear()">
+      Clear all
+    </button>
+  </div>
+</form>
