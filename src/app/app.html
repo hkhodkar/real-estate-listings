@@ -1,0 +1,37 @@
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="header">
+  <div class="container header__inner">
+    <a class="brand" routerLink="/" aria-label="Nestfinder home">
+      <span class="brand__mark"><app-icon name="home" [size]="20" /></span>
+      <span class="brand__name">Nestfinder</span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a routerLink="/" routerLinkActive="is-active" [routerLinkActiveOptions]="{ exact: true }">
+        <app-icon name="search" [size]="18" /><span class="nav__label">Browse</span>
+      </a>
+      <a routerLink="/favorites" routerLinkActive="is-active">
+        <app-icon name="heart" [size]="18" /><span class="nav__label">Saved</span>
+        @if (favorites.count()) {
+          <span class="nav__badge" [attr.aria-label]="favorites.count() + ' saved'">{{ favorites.count() }}</span>
+        }
+      </a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+  <router-outlet />
+</main>
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <span>Demo project. Listings, prices and agents are fictional.</span>
+    <span>
+      Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors ·
+      Built by <a href="https://github.com/hkhodkar" target="_blank" rel="noopener">Hatef Khodkar</a>
+    </span>
+  </div>
+</footer>
+
+<app-toast-container />
