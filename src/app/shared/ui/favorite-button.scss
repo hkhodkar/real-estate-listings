@@ -1,0 +1,54 @@
+:host {
+  display: inline-flex;
+}
+
+.fav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.92);
+  color: var(--text);
+  box-shadow: 0 2px 8px rgb(15 23 42 / 0.18);
+  cursor: pointer;
+  transition: transform 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    transform: scale(1.06);
+    color: var(--heart);
+  }
+
+  &:active {
+    transform: scale(0.94);
+  }
+}
+
+.fav--active {
+  color: var(--heart);
+}
+
+.fav--labelled {
+  flex: 1;
+  width: auto;
+  height: 40px;
+  gap: 8px;
+  padding: 0 16px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  box-shadow: none;
+  font-weight: 600;
+
+  &:hover {
+    transform: none;
+    border-color: var(--heart);
+  }
+
+  &.fav--active {
+    border-color: var(--heart);
+    background: var(--heart-soft);
+  }
+}

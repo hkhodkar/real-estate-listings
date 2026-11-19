@@ -1,0 +1,46 @@
+<div class="container favorites">
+  <header class="favorites__head">
+    <div>
+      <h1>Saved homes</h1>
+      @if (saved().length) {
+        <p>
+          {{ saved().length }} {{ saved().length === 1 ? 'home' : 'homes' }} in {{ cityCount() }} {{ cityCount() === 1 ? 'city' : 'cities' }}
+          · {{ totalValue() | price }} combined
+        </p>
+      } @else {
+        <p>Homes you save are kept on this device.</p>
+      }
+    </div>
+    @if (saved().length) {
+      <div class="favorites__actions">
+        <a class="btn btn--outline" routerLink="/" [queryParams]="{ view: 'map' }"><app-icon name="map" [size]="18" /> Browse on map</a>
+        <button type="button" class="btn btn--ghost btn--danger-text" (click)="askClear()"><app-icon name="trash" [size]="18" /> Clear all</button>
+      </div>
+    }
+  </header>
+
+  @if (saved().length) {
+    <div class="favorites__grid">
+      @for (listing of saved(); track listing.id) {
+        <app-listing-card [listing]="listing" />
+      }
+    </div>
+  } @else {
+    <div class="empty">
+      <span class="empty__icon"><app-icon name="heart" [size]="30" /></span>
+      <h2>No saved homes yet</h2>
+      <p>Tap the heart on any listing to keep it here and compare later.</p>
+      <a class="btn btn--primary" routerLink="/">Browse homes</a>
+    </div>
+  }
+</div>
+
+@if (confirmOpen()) {
+  <app-confirm-dialog
+    title="Clear all saved homes?"
+    [message]="saved().length === 1 ? 'This removes the saved home from this device.' : 'This removes all ' + saved().length + ' saved homes from this device.'"
+    confirmLabel="Clear all"
+    (confirm)="clearAll()"
+    (cancel)="closeConfirm()"
+  />
+}
