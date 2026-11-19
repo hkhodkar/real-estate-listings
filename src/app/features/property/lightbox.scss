@@ -1,0 +1,165 @@
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 1800;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  background: rgb(10 14 20 / 0.96);
+  color: #fff;
+  animation: fade-in 0.15s ease-out;
+}
+
+.lightbox__bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 16px 12px 24px;
+}
+
+.lightbox__counter {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.lightbox__caption {
+  flex: 1;
+  overflow: hidden;
+  color: rgb(255 255 255 / 0.7);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.lightbox__btn {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.08);
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.15s ease;
+
+  &:hover {
+    background: rgb(255 255 255 / 0.18);
+  }
+
+  &:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+  }
+}
+
+.lightbox__stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  padding: 8px 88px;
+  touch-action: pan-y;
+  user-select: none;
+}
+
+.lightbox__img {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 8px;
+  object-fit: contain;
+  box-shadow: 0 20px 60px rgb(0 0 0 / 0.4);
+}
+
+.lightbox__nav {
+  position: absolute;
+  top: 50%;
+  width: 52px;
+  height: 52px;
+  transform: translateY(-50%);
+}
+
+.lightbox__nav--prev {
+  left: 20px;
+}
+
+.lightbox__nav--next {
+  right: 20px;
+}
+
+.lightbox__thumbs {
+  display: flex;
+  gap: 8px;
+  padding: 12px 16px 18px;
+  overflow-x: auto;
+}
+
+.lightbox__thumb {
+  flex: 0 0 auto;
+  width: 84px;
+  height: 56px;
+  padding: 0;
+  overflow: hidden;
+  border: 2px solid transparent;
+  border-radius: 6px;
+  background: none;
+  opacity: 0.55;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &:hover {
+    opacity: 0.9;
+  }
+
+  &.is-active {
+    border-color: #fff;
+    opacity: 1;
+  }
+
+  // centred while they fit, still scrollable from the start when they don't
+  &:first-child {
+    margin-left: auto;
+  }
+
+  &:last-child {
+    margin-right: auto;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (max-width: 700px) {
+  .lightbox__stage {
+    padding: 8px 12px;
+  }
+
+  .lightbox__nav {
+    top: auto;
+    bottom: 16px;
+    width: 44px;
+    height: 44px;
+    background: rgb(0 0 0 / 0.45);
+    transform: none;
+  }
+
+  .lightbox__nav--prev {
+    left: 16px;
+  }
+
+  .lightbox__nav--next {
+    right: 16px;
+  }
+
+  .lightbox__thumb {
+    width: 64px;
+    height: 44px;
+  }
+}

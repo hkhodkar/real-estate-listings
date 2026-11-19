@@ -1,0 +1,30 @@
+<div class="gallery">
+  <div class="gallery__grid" [class.gallery__grid--few]="tiles().length < 4">
+    <button type="button" class="gallery__item gallery__item--main" (click)="open(0)" [attr.aria-label]="'Open photo 1: ' + images()[0].alt">
+      <img [src]="images()[0].src" [alt]="images()[0].alt" width="1200" height="800" />
+    </button>
+    @for (image of tiles(); track image.src + $index; let i = $index) {
+      <button type="button" class="gallery__item" (click)="open(i + 1)" [attr.aria-label]="'Open photo ' + (i + 2) + ': ' + image.alt">
+        <img [src]="image.src" [alt]="image.alt" width="1200" height="800" loading="lazy" />
+      </button>
+    }
+    <button type="button" class="btn btn--outline btn--sm gallery__all" (click)="open(0)">
+      <app-icon name="photo" [size]="16" /> Show all {{ images().length }} photos
+    </button>
+  </div>
+
+  <div class="gallery__mobile">
+    <div #strip class="gallery__strip" (scroll)="onStripScroll($event)">
+      @for (image of images(); track image.src + $index; let i = $index) {
+        <button type="button" class="gallery__slide" (click)="open(i)" [attr.aria-label]="'Open photo ' + (i + 1) + ': ' + image.alt">
+          <img [src]="image.src" [alt]="image.alt" width="1200" height="800" [attr.loading]="i ? 'lazy' : null" />
+        </button>
+      }
+    </div>
+    <span class="gallery__counter">{{ stripIndex() + 1 }} / {{ images().length }}</span>
+  </div>
+</div>
+
+@if (openIndex() !== null) {
+  <app-lightbox [images]="images()" [title]="title()" [index]="openIndex()!" (indexChange)="setIndex($event)" (closed)="close()" />
+}

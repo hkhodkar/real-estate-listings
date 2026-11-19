@@ -1,0 +1,28 @@
+<div class="lightbox" role="dialog" aria-modal="true" [attr.aria-label]="'Photos of ' + title()">
+  <header class="lightbox__bar">
+    <span class="lightbox__counter">{{ index() + 1 }} / {{ images().length }}</span>
+    <span class="lightbox__caption">{{ current().alt }}</span>
+    <button #closeBtn type="button" class="lightbox__btn" aria-label="Close photo viewer" (click)="close()">
+      <app-icon name="close" [size]="22" />
+    </button>
+  </header>
+
+  <div class="lightbox__stage" (click)="onStageClick($event)" (pointerdown)="onPointerDown($event)" (pointerup)="onPointerUp($event)">
+    <button type="button" class="lightbox__btn lightbox__nav lightbox__nav--prev" aria-label="Previous photo" (click)="prev()">
+      <app-icon name="chevron-left" [size]="26" />
+    </button>
+    <img class="lightbox__img" [src]="current().src" [alt]="current().alt" draggable="false" />
+    <button type="button" class="lightbox__btn lightbox__nav lightbox__nav--next" aria-label="Next photo" (click)="next()">
+      <app-icon name="chevron-right" [size]="26" />
+    </button>
+  </div>
+
+  <div #thumbs class="lightbox__thumbs">
+    @for (image of images(); track image.src + $index; let i = $index) {
+      <button type="button" class="lightbox__thumb" [class.is-active]="i === index()" [attr.aria-label]="'Show photo ' + (i + 1)"
+        [attr.aria-current]="i === index()" (click)="go(i)">
+        <img [src]="image.src" alt="" />
+      </button>
+    }
+  </div>
+</div>

@@ -1,0 +1,107 @@
+@if (listing(); as l) {
+  <!-- one pass per id so the gallery, map and form start fresh when moving between homes -->
+  @for (current of [l]; track current.id) {
+    <article class="container detail">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <button type="button" class="crumbs__back" (click)="back()">
+          <app-icon name="arrow-left" [size]="18" /> Back to results
+        </button>
+        <span class="crumbs__path">{{ cityName() }} <span aria-hidden="true">/</span> {{ current.community }}</span>
+      </nav>
+
+      <header class="detail__head">
+        <div>
+          <div class="detail__badges">
+            <span class="badge badge--soft">{{ typeLabel() }}</span>
+            @if (current.featured) {
+              <span class="badge badge--accent">Featured</span>
+            }
+            <span class="detail__ref">Ref. {{ current.ref }}</span>
+          </div>
+          <h1>{{ current.title }}</h1>
+          <p class="detail__location"><app-icon name="pin" [size]="18" /> {{ current.community }}, {{ cityName() }}</p>
+        </div>
+        <div class="detail__actions">
+          <button type="button" class="btn btn--outline" (click)="share()"><app-icon name="share" [size]="18" /> Share</button>
+          <app-favorite-button [listingId]="current.id" [title]="current.title" [labelled]="true" />
+        </div>
+      </header>
+
+      <app-gallery [images]="current.images" [title]="current.title" />
+
+      <div class="detail__layout">
+        <div class="detail__main">
+          <div class="price-row">
+            <div class="price-row__price">{{ current.price | price }}</div>
+            <div class="price-row__sqft">AED {{ perSqft() }} per sqft</div>
+          </div>
+
+          <ul class="facts">
+            <li><app-icon name="bed" /><span><strong>{{ current.beds | beds }}</strong>Bedrooms</span></li>
+            <li><app-icon name="bath" /><span><strong>{{ current.baths | baths }}</strong>Bathrooms</span></li>
+            <li><app-icon name="area" /><span><strong>{{ current.area | area }}</strong>Built-up area</span></li>
+            <li><app-icon name="home" /><span><strong>{{ typeLabel() }}</strong>Property type</span></li>
+            <li><app-icon name="building" /><span><strong>{{ current.yearBuilt }}</strong>Year built</span></li>
+            <li><app-icon name="car" /><span><strong>{{ current.parking }} {{ current.parking === 1 ? 'space' : 'spaces' }}</strong>Parking</span></li>
+            <li><app-icon name="sofa" /><span><strong>{{ current.furnished ? 'Furnished' : 'Unfurnished' }}</strong>Furnishing</span></li>
+            <li><app-icon name="calendar" /><span><strong>{{ current.listedAt | shortDate }}</strong>Listed</span></li>
+          </ul>
+
+          <section class="section">
+            <h2>About this home</h2>
+            <p class="description">{{ current.description }}</p>
+          </section>
+
+          <section class="section">
+            <h2>Amenities</h2>
+            <ul class="amenities">
+              @for (amenity of current.amenities; track amenity) {
+                <li><app-icon name="check" [size]="18" /> {{ amenity }}</li>
+              }
+            </ul>
+          </section>
+
+          <section class="section">
+            <h2>Location</h2>
+            <p class="section__lead">{{ current.community }}, {{ cityName() }}. The pin shows the approximate location.</p>
+            <app-location-map [lat]="current.lat" [lng]="current.lng" [label]="current.community" />
+          </section>
+        </div>
+
+        <aside class="detail__aside">
+          @if (agent(); as a) {
+            <div class="contact-card">
+              <div class="agent">
+                <span class="agent__avatar" [style.background]="a.color">{{ initials() }}</span>
+                <div>
+                  <strong class="agent__name">{{ a.name }}</strong>
+                  <span class="agent__title">{{ a.title }}</span>
+                  <span class="agent__langs"><app-icon name="globe" [size]="14" /> {{ a.languages.join(', ') }}</span>
+                </div>
+              </div>
+              <app-contact-form [listing]="current" [agent]="a" />
+            </div>
+          }
+        </aside>
+      </div>
+
+      @if (similar().length) {
+        <section class="section similar">
+          <h2>More homes in {{ cityName() }}</h2>
+          <div class="similar__grid">
+            @for (item of similar(); track item.id) {
+              <app-listing-card [listing]="item" />
+            }
+          </div>
+        </section>
+      }
+    </article>
+  }
+} @else {
+  <div class="container missing">
+    <app-icon name="home" [size]="40" />
+    <h1>This listing is no longer available</h1>
+    <p>It may have been sold or taken off the market.</p>
+    <a class="btn btn--primary" routerLink="/">Browse all homes</a>
+  </div>
+}
