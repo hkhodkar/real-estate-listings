@@ -1,0 +1,140 @@
+// Leaflet renders outside Angular's view encapsulation, so its overrides live here.
+.leaflet-container {
+  font-family: var(--font);
+}
+
+.price-marker {
+  span {
+    position: absolute;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px 9px;
+    border: 1px solid rgb(15 23 42 / 0.12);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--text);
+    box-shadow: 0 2px 6px rgb(15 23 42 / 0.25);
+    font-size: 0.78rem;
+    font-weight: 700;
+    white-space: nowrap;
+    transform: translate(-50%, calc(-100% - 7px));
+    transition: background 0.15s ease, color 0.15s ease;
+    cursor: pointer;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 50%;
+      width: 10px;
+      height: 10px;
+      border-right: 1px solid rgb(15 23 42 / 0.12);
+      border-bottom: 1px solid rgb(15 23 42 / 0.12);
+      background: inherit;
+      transform: translateX(-50%) rotate(45deg);
+    }
+  }
+
+  &.is-fav span::before {
+    content: '♥';
+    color: var(--heart);
+  }
+
+  &:hover span,
+  &:focus-visible span,
+  &.is-active span {
+    background: var(--primary);
+    color: #fff;
+  }
+
+  &.is-active.is-fav span::before {
+    color: #fff;
+  }
+
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+.listing-popup {
+  .leaflet-popup-content-wrapper {
+    padding: 0;
+    overflow: hidden;
+    border-radius: 12px;
+  }
+
+  .leaflet-popup-content {
+    width: 250px !important;
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  a.leaflet-popup-close-button {
+    top: 6px;
+    right: 6px;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: rgb(255 255 255 / 0.92);
+    color: var(--text);
+    font: 18px/26px var(--font);
+  }
+}
+
+.map-card {
+  display: block;
+  color: var(--text);
+  text-decoration: none;
+
+  img {
+    display: block;
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+  }
+
+  &:hover strong {
+    color: var(--primary);
+  }
+}
+
+.map-card__body {
+  display: grid;
+  gap: 2px;
+  padding: 10px 14px 12px;
+
+  strong {
+    font-size: 1rem;
+  }
+}
+
+.map-card__title {
+  font-weight: 600;
+}
+
+.map-card__meta {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+.zoomed-out .price-marker:not(:hover, :focus-visible, .is-active) span {
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  overflow: hidden;
+  border: 2px solid #fff;
+  background: var(--primary);
+  color: transparent;
+  font-size: 0;
+  transform: translate(-50%, -50%);
+
+  &::after,
+  &::before {
+    display: none;
+  }
+}
+
+.zoomed-out .price-marker.is-fav:not(:hover, :focus-visible, .is-active) span {
+  background: var(--heart);
+}
